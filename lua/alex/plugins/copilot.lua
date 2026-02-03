@@ -9,7 +9,6 @@ return {
 			},
 			suggestion = {
 				enabled = true,
-				auto_trigger = false, -- only show when manually requested
 				debounce = 75,
 				keymap = {
 					accept = "<C-l>", -- accept suggestion

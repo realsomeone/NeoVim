@@ -7,7 +7,6 @@ return {
 		{ "folke/neodev.nvim", opts = {} },
 	},
 	config = function()
-		local lspconfig = require("lspconfig")
 		local mason_lspconfig = require("mason-lspconfig")
 		local cmp_nvim_lsp = require("cmp_nvim_lsp")
 		local keymap = vim.keymap
@@ -22,7 +21,7 @@ return {
 			float = { border = "rounded", source = "always", header = "", prefix = "" },
 		})
 
-		local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
+		local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
 		for type, icon in pairs(signs) do
 			local hl = "DiagnosticSign" .. type
 			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
@@ -53,12 +52,17 @@ return {
 
 		local capabilities = cmp_nvim_lsp.default_capabilities()
 
-		-- setup installed servers manually
+		-- Setup installed servers using new vim.lsp.config API
 		for _, server_name in ipairs(mason_lspconfig.get_installed_servers()) do
-			local opts = { capabilities = capabilities }
+			local config = {
+				name = server_name,
+				cmd = vim.lsp.config[server_name] and vim.lsp.config[server_name].cmd or { server_name },
+				root_markers = vim.lsp.config[server_name] and vim.lsp.config[server_name].root_markers or nil,
+				capabilities = capabilities,
+			}
 
 			if server_name == "lua_ls" then
-				opts.settings = {
+				config.settings = {
 					Lua = {
 						diagnostics = { globals = { "vim" } },
 						workspace = { checkThirdParty = false },
@@ -66,15 +70,19 @@ return {
 					},
 				}
 			elseif server_name == "clangd" then
-				opts.cmd = { "clangd", "--header-insertion=never", "--background-index" }
-				opts.init_options = {
+				config.cmd = { "clangd", "--header-insertion=never", "--background-index" }
+				config.init_options = {
 					usePlaceholders = true,
 					completeUnimported = true,
 					clangdFileStatus = true,
 				}
 			end
 
-			lspconfig[server_name].setup(opts)
+			-- Register the config
+			vim.lsp.config[server_name] = config
+
+			-- Enable the server
+			vim.lsp.enable(server_name)
 		end
 
 		-- Optional C++ compile & run
