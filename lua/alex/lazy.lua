@@ -1,3 +1,4 @@
+-- Setup lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 if not vim.loop.fs_stat(lazypath) then
@@ -14,17 +15,10 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
--- load your plugins
+-- Load plugins
 require("lazy").setup({{import = "alex.plugins"},{import = "alex.plugins.lsp"}}, {
-  git = {
-    timeout = 300,  -- seconds (5 minutes)
-  },
-  change_detection ={
-    notify = false,
-  },
-  checker = {
-    enabled = true,
-    notify = false,
-  },
+  git = { timeout = 300 },
+  change_detection = { notify = false },
+  checker = { enabled = true, notify = false },
 })
 

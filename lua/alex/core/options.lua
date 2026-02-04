@@ -1,64 +1,43 @@
-local opt = vim.opt -- for conciseness
+local opt = vim.opt
 
--- =====================================
--- TABS & INDENTATION
--- =====================================
-opt.tabstop = 2 -- 2 spaces for tabs (prettier default)
-opt.shiftwidth = 2 -- 2 spaces for indent width
-opt.expandtab = true -- expand tab to spaces
-opt.autoindent = true -- copy indent from current line when starting new one
+-- Tabs and indentation
+opt.tabstop = 2
+opt.shiftwidth = 2
+opt.expandtab = true
+opt.autoindent = true
 
--- =====================================
--- LINE WRAPPING
--- =====================================
-opt.wrap = false -- disable line wrapping
+-- Line wrapping
+opt.wrap = false
 
--- =====================================
--- SEARCH SETTINGS
--- =====================================
-opt.ignorecase = true -- ignore case when searching
-opt.smartcase = true -- if mixed case in search, assume case-sensitive
+-- Search settings
+opt.ignorecase = true
+opt.smartcase = true
 
--- =====================================
--- CURSOR LINE
--- =====================================
-opt.cursorline = true -- highlight the current cursor line
+-- Cursor line
+opt.cursorline = true
 
--- =====================================
--- APPEARANCE
--- =====================================
-opt.number = true -- show absolute line numbers
-opt.termguicolors = true -- enable 24-bit colors
-opt.background = "dark" -- use dark theme
-opt.signcolumn = "yes" -- show sign column so text doesn't shift
+-- Appearance
+opt.number = true
+opt.termguicolors = true
+opt.background = "dark"
+opt.signcolumn = "yes"
 
--- =====================================
--- BACKSPACE
--- =====================================
-opt.backspace = "indent,eol,start" -- allow backspace in insert mode
+-- Backspace
+opt.backspace = "indent,eol,start"
 
--- =====================================
--- CLIPBOARD
--- =====================================
-opt.clipboard:append("unnamedplus") -- use system clipboard as default register
+-- Clipboard
+opt.clipboard:append("unnamedplus")
 
--- =====================================
--- SPLIT WINDOWS
--- =====================================
-opt.splitright = true -- split vertical window to the right
-opt.splitbelow = true -- split horizontal window to the bottom
+-- Split windows
+opt.splitright = true
+opt.splitbelow = true
 
--- =====================================
--- SWAPFILE
--- =====================================
-opt.swapfile = false -- disable swapfile
+-- Swapfile
+opt.swapfile = false
 
--- =====================================
--- EARTHY TRANSPARENT THEME
--- =====================================
+-- Earthy transparent theme
 local function set_earthy_transparency()
 	vim.cmd([[
-    " Transparent background
     highlight Normal guibg=none guifg=#D5C4A1
     highlight NormalNC guibg=none guifg=#D5C4A1
     highlight SignColumn guibg=none
@@ -73,8 +52,6 @@ local function set_earthy_transparency()
     highlight PmenuSel guibg=none guifg=#83A598
     highlight PmenuSbar guibg=none guifg=#504945
     highlight PmenuThumb guibg=none guifg=#7C6F64
-
-    " Syntax highlighting with earthy colors
     highlight Comment guifg=#928374
     highlight Constant guifg=#B16286
     highlight Identifier guifg=#98971A
@@ -86,18 +63,13 @@ local function set_earthy_transparency()
   ]])
 end
 
--- apply on startup
 set_earthy_transparency()
-
--- reapply on colorscheme change
 vim.api.nvim_create_autocmd("ColorScheme", {
 	pattern = "*",
 	callback = set_earthy_transparency,
 })
 
--- =====================================
--- TOGGLE TRANSPARENCY
--- =====================================
+-- Toggle transparency
 local transparent_enabled = true
 
 function ToggleTransparency()
