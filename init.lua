@@ -1,5 +1,6 @@
 require("alex.core")
 require("alex.lazy")
+require("kerbo")
 vim.cmd([[
   hi Normal guibg=NONE ctermbg=NONE
   hi NormalNC guibg=NONE ctermbg=NONE
